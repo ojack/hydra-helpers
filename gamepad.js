@@ -1,5 +1,5 @@
 
-window.connectGamepads = (log = true) => {
+window.connectGamepads = (log = false) => {
     window._gamepads?.stop()
 	window.game = new Array(4).fill(0).map(() => ({
 			x: 0,
@@ -11,6 +11,10 @@ window.connectGamepads = (log = true) => {
       		dz: 0, 
       		dw: 0,
       		b: new Array(16).fill(0), //buttons
+            buttons: new Array(16).fill(0),
+            a: new Array(4).fill(4), //axes
+            axes: new Array(4).fill(4),
+            pad: null,
 			active: false
 		}))
 	let loop = null
@@ -31,7 +35,11 @@ window.connectGamepads = (log = true) => {
              	game[i].z -= window.game[i].dz * 0.002
               	game[i].dw = pad.axes[3] ?? 0
              	game[i].w -= window.game[i].dw * 0.002
-              	game[i].b = pad.buttons.map(_s => _s.value)
+              	game[i].buttons = pad.buttons.map(_s => _s.value)
+                game[i].b = game[i].buttons // alias for buttons
+                game[i].axes = pad.axes
+                game[i].a = game[i].axes // alias for axes
+                game[i].pad = pad // raw gamepad object
             }
 		})
      
@@ -41,6 +49,7 @@ window.connectGamepads = (log = true) => {
 	window._gamepads = {
 		stop: () => cancelAnimationFrame(loop)
 	}
+    window.stopGamepads = window._gamepads.stop
 }
 
 //_gamepads = connectGamepads()
