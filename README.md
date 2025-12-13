@@ -41,3 +41,27 @@ shape()
   .hue(() => game[0].b[1]*0.2)
   .out()
 ```
+
+### Disconnecting
+You can disconnect from gamepads by calling `disconnectGamepads()`
+
+## loading local images and videos
+You can use local images and videos in the web editor by running a local server, and accessing the files using their public link. 
+
+To do this, we will use nodejs to host a static server.
+
+1. Install NodeJS (LTS version)
+https://nodejs.org/en/download 
+
+2. Open Terminal or a command line and paste the following (replacing path/to/folder with your actual folder)
+```sh
+npx http-server path/to/folder -p 8000 --cors
+```
+On osx and linux, you can get the path to the folder by dragging them into terminal. 
+
+1. Run the following in the web editor (replacing `waves.png` with the name of your file)
+```javascript
+s0.initImage("http://localhost:8000/waves.png")
+
+src(s0).out()
+```
